@@ -3,6 +3,7 @@ from enum import Enum
 
 from pydantic import BaseModel
 
+# To ensure the JobStatus can only be OPEN or CLOSED
 class JobStatus(str, Enum):
   OPEN = "OPEN"
   CLOSED = "CLOSED"

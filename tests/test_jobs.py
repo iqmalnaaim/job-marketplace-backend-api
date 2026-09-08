@@ -4,6 +4,7 @@ from app.main import app
 
 client = TestClient(app)
 
+# Test case create job
 def test_create_job():
   response = client.post(
     "/jobs",
@@ -22,11 +23,13 @@ def test_create_job():
   assert data["location"] == "Kuala Lumpur"
   assert data["status"] == "OPEN"
 
+# Test case getting nonexistent job
 def test_get_nonexistent_job():
   response = client.get("/jobs/999999")
 
   assert response.status_code == 404
 
+# Test case send application for a closed job
 def test_closed_job_cannot_accept_application():
   job_response = client.post(
     "/jobs",
@@ -58,6 +61,7 @@ def test_closed_job_cannot_accept_application():
     application_response.json()["detail"] == "Cannot apply for a closed job"
   )
 
+# Test case create application
 def test_create_application_for_open_job():
   job_response = client.post(
     "/jobs",
@@ -85,6 +89,7 @@ def test_create_application_for_open_job():
   assert data["job_id"] == job_id
   assert data["candidateName"] == "Ahmad"
 
+# Test case listing applications for a particular job
 def test_list_applications_for_job():
   job_response = client.post(
     "/jobs",

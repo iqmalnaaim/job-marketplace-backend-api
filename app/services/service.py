@@ -13,6 +13,7 @@ class JobService:
   def __init__(self, repository: JobRepository):
     self.repository = repository
 
+  # To create job, and send the job to be saved in repository
   def create_job(self, request: CreateJobRequest) -> Job:
     job = Job(
       id=self.repository.next_job_id,
@@ -27,6 +28,7 @@ class JobService:
 
     return self.repository.create_job(job)
 
+  # To get the particular job passed with job_id
   def get_job(self, job_id: int) -> Job:
     job = self.repository.get_job(job_id)
 
@@ -38,6 +40,7 @@ class JobService:
 
     return job
 
+  # To get list of job based on the filter of JobStatus applied by client
   def list_jobs(self, status: JobStatus | None = None) -> list[Job]:
     jobs = self.repository.get_jobs()
 
@@ -50,6 +53,7 @@ class JobService:
 
     return jobs
 
+  # To close an existing opened job
   def close_job(self, job_id: int) -> Job:
     job = self.get_job(job_id)
 
@@ -63,6 +67,7 @@ class JobService:
 
     return self.repository.update_job(job)
 
+  # To create new application for a particular job_id
   def create_application(
       self,
       job_id: int,
@@ -88,6 +93,7 @@ class JobService:
 
     return self.repository.create_application(application)
 
+  # To list the applications in a particular job_id
   def list_applications(self, job_id: int) -> list[Application]:
     self.get_job(job_id)
 
